@@ -205,24 +205,14 @@ function isValueInArray(arr, val) {
 }
 
 var multiMap = function(arr, funct) {
-    // This function is very cool but could use some rewriting
-    // The eval statement is an eyesore, and it makes the operation of 
-    // this function much less clear. It does cool things though! :)
     var result = [];
     var numFunctionArgs = funct.length;
     for (var i = 0; i <= arr.length - numFunctionArgs; i++) {
         var functionArgs = arr.slice(i, i + numFunctionArgs);
-        var stringToEval = "var partialResult = funct(";
-        for (var argNum = 0; argNum < functionArgs.length; argNum++) {
-            stringToEval += functionArgs[argNum] + ","
-        }
-        stringToEval = stringToEval.slice(0,-1);
-        stringToEval += ")";
-        eval(stringToEval);
-        result.push(partialResult);
+        result.push(funct.apply(this, functionArgs));
     }
     return result;
-}
+};
 
 var factorial = function(n) {
     if ((n == 0) || (n == 1)) {
